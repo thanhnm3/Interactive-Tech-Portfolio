@@ -61,7 +61,7 @@ prj2/
 
 ## 📋 Prerequisites
 
-- Java 21+
+- Java 17
 - Docker & Docker Compose
 - Maven 3.8+
 
@@ -81,14 +81,14 @@ docker-compose --profile dev up -d
 
 ```bash
 cd backend
-./mvnw spring-boot:run
+mvn spring-boot:run
 ```
 
 ### 3. Access APIs
 
-- **API Documentation**: http://localhost:8080/swagger-ui.html
-- **Status**: http://localhost:8080/api/v1/status
-- **Showcase**: http://localhost:8080/api/v1/showcase
+- **API Documentation**: http://localhost:8088/swagger-ui.html
+- **Status**: http://localhost:8088/api/v1/status
+- **Showcase**: http://localhost:8088/api/v1/showcase
 
 ## 📚 API Endpoints
 
@@ -121,14 +121,14 @@ GET  /api/v1/db-lab/tips             # Optimization tips
 ### Environment Variables
 ```env
 DB_HOST=localhost
-DB_PORT=5432
+DB_PORT=5433
 DB_NAME=portfolio
 DB_USERNAME=portfolio_user
 DB_PASSWORD=portfolio_pass
 REDIS_HOST=localhost
 REDIS_PORT=6379
 RABBITMQ_HOST=localhost
-SERVER_PORT=8080
+SERVER_PORT=8088
 ```
 
 ### Profiles
@@ -187,4 +187,4 @@ This project is for portfolio demonstration purposes.
 
 ## 👤 Author
 
-Portfolio Development Team
+Thanhnm3

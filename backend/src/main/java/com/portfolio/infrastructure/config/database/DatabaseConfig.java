@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Primary;
  * Database configuration with connection pooling and read/write splitting
  */
 @Configuration
+@ConditionalOnProperty(name = "spring.datasource.primary.url")
 public class DatabaseConfig {
 
     // Primary datasource properties
@@ -47,35 +49,35 @@ public class DatabaseConfig {
     @Value("${spring.datasource.primary.hikari.max-lifetime}")
     private long primaryMaxLifetime;
 
-    // Replica datasource properties
-    @Value("${spring.datasource.replica.url}")
+    // Replica datasource properties (optional, defaults to primary if not configured)
+    @Value("${spring.datasource.replica.url:${spring.datasource.primary.url}}")
     private String replicaUrl;
 
-    @Value("${spring.datasource.replica.username}")
+    @Value("${spring.datasource.replica.username:${spring.datasource.primary.username}}")
     private String replicaUsername;
 
-    @Value("${spring.datasource.replica.password}")
+    @Value("${spring.datasource.replica.password:${spring.datasource.primary.password}}")
     private String replicaPassword;
 
-    @Value("${spring.datasource.replica.driver-class-name}")
+    @Value("${spring.datasource.replica.driver-class-name:${spring.datasource.primary.driver-class-name}}")
     private String replicaDriverClassName;
 
-    @Value("${spring.datasource.replica.hikari.pool-name}")
+    @Value("${spring.datasource.replica.hikari.pool-name:${spring.datasource.primary.hikari.pool-name}-replica}")
     private String replicaPoolName;
 
-    @Value("${spring.datasource.replica.hikari.maximum-pool-size}")
+    @Value("${spring.datasource.replica.hikari.maximum-pool-size:${spring.datasource.primary.hikari.maximum-pool-size}}")
     private int replicaMaxPoolSize;
 
-    @Value("${spring.datasource.replica.hikari.minimum-idle}")
+    @Value("${spring.datasource.replica.hikari.minimum-idle:${spring.datasource.primary.hikari.minimum-idle}}")
     private int replicaMinIdle;
 
-    @Value("${spring.datasource.replica.hikari.idle-timeout}")
+    @Value("${spring.datasource.replica.hikari.idle-timeout:${spring.datasource.primary.hikari.idle-timeout}}")
     private long replicaIdleTimeout;
 
-    @Value("${spring.datasource.replica.hikari.connection-timeout}")
+    @Value("${spring.datasource.replica.hikari.connection-timeout:${spring.datasource.primary.hikari.connection-timeout}}")
     private long replicaConnectionTimeout;
 
-    @Value("${spring.datasource.replica.hikari.max-lifetime}")
+    @Value("${spring.datasource.replica.hikari.max-lifetime:${spring.datasource.primary.hikari.max-lifetime}}")
     private long replicaMaxLifetime;
 
     /**

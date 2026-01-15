@@ -224,6 +224,11 @@ public class QueryPerformanceService {
 
         // Simulate execution for unoptimized query
         ExecutionPlanDto unoptPlan = executionPlanService.parseExecutionPlan(scenario.unoptimizedSql(), false);
+        
+        // Handle null values for Map.of() - Map.of() doesn't accept null values
+        String unoptPlanType = unoptPlan.getPlanType() != null ? unoptPlan.getPlanType() : "Unknown";
+        List<ExecutionPlanDto.PlanNode> unoptNodes = unoptPlan.getNodes() != null ? unoptPlan.getNodes() : List.of();
+        
         QueryResult unoptResult = new QueryResult.Builder()
             .sql(scenario.unoptimizedSql())
             .formattedSql(scenario.unoptimizedSql())
@@ -232,15 +237,20 @@ public class QueryPerformanceService {
             .rowsReturned(unoptPlan.getRowsReturned())
             .usesIndex(false)
             .executionPlan(Map.of(
-                "type", unoptPlan.getPlanType(),
+                "type", unoptPlanType,
                 "cost", unoptPlan.getTotalCost(),
-                "nodes", unoptPlan.getNodes()
+                "nodes", unoptNodes
             ))
             .explanation("Full table scan required - no suitable index found")
             .build();
 
         // Simulate execution for optimized query
         ExecutionPlanDto optPlan = executionPlanService.parseExecutionPlan(scenario.optimizedSql(), true);
+        
+        // Handle null values for Map.of() - Map.of() doesn't accept null values
+        String optPlanType = optPlan.getPlanType() != null ? optPlan.getPlanType() : "Unknown";
+        List<ExecutionPlanDto.PlanNode> optNodes = optPlan.getNodes() != null ? optPlan.getNodes() : List.of();
+        
         QueryResult optResult = new QueryResult.Builder()
             .sql(scenario.optimizedSql())
             .formattedSql(scenario.optimizedSql())
@@ -250,9 +260,9 @@ public class QueryPerformanceService {
             .usesIndex(true)
             .indexUsed("idx_products_category_active")
             .executionPlan(Map.of(
-                "type", optPlan.getPlanType(),
+                "type", optPlanType,
                 "cost", optPlan.getTotalCost(),
-                "nodes", optPlan.getNodes()
+                "nodes", optNodes
             ))
             .explanation("Index scan used - efficient row lookup")
             .build();

@@ -38,11 +38,11 @@ RUN chown -R portfolio:portfolio /app
 USER portfolio
 
 # Expose port
-EXPOSE 8080
+EXPOSE 8088
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-  CMD wget -q --spider http://localhost:8080/actuator/health || exit 1
+  CMD wget -q --spider http://localhost:8088/actuator/health || exit 1
 
 # Run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]

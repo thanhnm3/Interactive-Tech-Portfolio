@@ -54,8 +54,8 @@ public class Product {
     @Column(name = "is_featured")
     private boolean isFeatured;
 
-    @Column(name = "weight")
-    private Double weight;
+    @Column(name = "weight", columnDefinition = "NUMERIC(10, 2)")
+    private BigDecimal weight;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
@@ -185,9 +185,9 @@ public class Product {
 
     /**
      * Get product weight
-     * @return Double - weight in kg
+     * @return BigDecimal - weight in kg
      */
-    public Double getWeight() {
+    public BigDecimal getWeight() {
         return weight;
     }
 
@@ -358,7 +358,7 @@ public class Product {
      * Set weight
      * @param weight - weight in kg
      */
-    public void setWeight(Double weight) {
+    public void setWeight(BigDecimal weight) {
         this.weight = weight;
         this.updatedAt = LocalDateTime.now();
     }

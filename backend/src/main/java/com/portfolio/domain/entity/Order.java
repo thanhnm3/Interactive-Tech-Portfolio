@@ -432,11 +432,8 @@ public class Order {
          */
         public Builder addItem(Product product, int quantity) {
             // Create temporary item that will be linked when order is built
-            OrderItem item = new OrderItem(null, product, quantity) {
-                {
-                    // Override to allow null order during building
-                }
-            };
+            // Use package-private constructor that allows null order
+            OrderItem item = new OrderItem(null, product, quantity, true);
             this.items.add(item);
             recalculateTotals();
             return this;

@@ -52,6 +52,24 @@ public class OrderItem {
     }
 
     /**
+     * Create order item for Builder (order can be null initially)
+     * @param order - parent order (can be null during building)
+     * @param product - product being ordered
+     * @param quantity - quantity ordered
+     */
+    OrderItem(Order order, Product product, int quantity, boolean allowNullOrder) {
+        this.id = UUID.randomUUID().toString();
+        this.order = order; // Allow null for Builder pattern
+        this.product = Objects.requireNonNull(product, "Product cannot be null");
+        this.productName = product.getName();
+        this.productSku = product.getSku();
+        this.quantity = validateQuantity(quantity);
+        this.unitPrice = product.getPrice().getAmount();
+        this.discountAmount = BigDecimal.ZERO;
+        calculateLineTotal();
+    }
+
+    /**
      * Create order item
      * @param order - parent order
      * @param product - product being ordered

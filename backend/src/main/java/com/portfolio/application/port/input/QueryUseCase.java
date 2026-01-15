@@ -2,6 +2,7 @@ package com.portfolio.application.port.input;
 
 /**
  * Base interface for query use cases (read operations)
+ * 
  * @param <I> Input/Query type
  * @param <O> Output/Result type
  */
